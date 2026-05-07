@@ -88,12 +88,20 @@ LEGACY_DATA = {
 class InfraData(BaseModel):
     """Infrastructure data."""
 
-    members: MembersData
+    github_usernames: GithubUsernames
+    andrew_ids: AndrewIds
     teams: dict[str, TeamData]
 
 
-class MembersData(BaseModel):
-    """Member data."""
+class GithubUsernames(BaseModel):
+    """Members' GitHub usernames data."""
+
+    admins: list[str]
+    non_admins: list[str]
+
+
+class AndrewIds(BaseModel):
+    """Members' Andrew IDs data."""
 
     admins: list[str]
     non_admins: list[str]
@@ -142,9 +150,14 @@ class InfraSynchronizer(AbstractSynchronizer):
 
     def generate_infra_file(self) -> str:
         """Generate the infrastructure file."""
-        members_data = MembersData(
+        github_usernames = GithubUsernames(
             admins=self.teams["leadership"].leads,
             non_admins=list(self.members.keys() - self.teams["leadership"].leads),
+        )
+
+        andrew_ids = AndrewIds(
+            admins=self._get_andrew_ids(github_usernames.admins),
+            non_admins=self._get_andrew_ids(github_usernames.non_admins),
         )
 
         teams_data = {}
@@ -152,8 +165,14 @@ class InfraSynchronizer(AbstractSynchronizer):
             entry: dict[str, Any] = {
                 "name": team.name,
                 "description": team.description,
-                "members": self._get_users(team.members),
-                "admins": self._get_users(team.leads),
+                "members": TeamMembersData(
+                    github_usernames=team.members,
+                    andrew_ids=self._get_andrew_ids(team.members),
+                ),
+                "admins": TeamMembersData(
+                    github_usernames=team.leads,
+                    andrew_ids=self._get_andrew_ids(team.leads),
+                ),
                 "repos": [repo.name for repo in team.repos],
                 "create_oidc_clients": team.create_oidc_clients,
                 "website": team.website,
@@ -165,20 +184,19 @@ class InfraSynchronizer(AbstractSynchronizer):
             teams_data[team_slug] = TeamData.model_validate(team_data)
 
         infra_data = InfraData(
-            members=members_data,
+            github_usernames=github_usernames,
+            andrew_ids=andrew_ids,
             teams=teams_data,
         )
         return infra_data.model_dump_json(indent=2, exclude_none=True) + "\n"
 
-    def _get_users(self, github_usernames: list[str]) -> TeamMembersData:
-        """Build users for one team."""
-        andrew_ids: list[str] = []
-        for github_username in github_usernames:
-            member = self.members.get(github_username)
-            if member is None or member.andrew_id is None:
-                continue
-            andrew_ids.append(member.andrew_id)
-        return TeamMembersData(github_usernames=github_usernames, andrew_ids=andrew_ids)
+    def _get_andrew_ids(self, github_usernames: list[str]) -> list[str]:
+        """Get the Andrew IDs for a list of GitHub usernames."""
+        raw = [
+            self.members[github_username].andrew_id
+            for github_username in github_usernames
+        ]
+        return [andrew_id for andrew_id in raw if andrew_id is not None]
 
 
 def main() -> None:
