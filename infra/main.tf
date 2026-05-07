@@ -71,4 +71,10 @@ module "google_group" {
 
   # Credentials
   google_credentials_json = var.google_credentials_json
+
+  # IDs
+  google_group_id = var.google_group_id
+
+  # Data
+  andrew_ids = local.andrew_ids
 }
