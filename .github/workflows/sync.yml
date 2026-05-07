@@ -46,6 +46,25 @@ jobs:
       - name: Sync Slack
         run: uv run --frozen --no-dev --group slack-synchronizer sync-slack
 
+  sync-google-drive:
+    name: Sync Google Drive
+    runs-on: ubuntu-latest
+
+    env:
+      GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+      GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+      SCOTTYLABS_GOOGLE_DRIVE_ID: ${{ secrets.SCOTTYLABS_GOOGLE_DRIVE_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Sync Google Drive
+        run: uv run --frozen --no-dev --group google-synchronizer sync-google-drive
+
   sync-infra:
     name: Sync Infra
     runs-on: ubuntu-latest
