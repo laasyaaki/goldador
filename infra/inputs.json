@@ -1,11 +1,17 @@
 {
-  "members": {
+  "github_usernames": {
     "admins": [
       "Yuxiang-Huang"
     ],
     "non_admins": [
       "dsnarne"
     ]
+  },
+  "andrew_ids": {
+    "admins": [
+      "yh4"
+    ],
+    "non_admins": []
   },
   "teams": {
     "goldador": {
