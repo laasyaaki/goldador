@@ -5,10 +5,8 @@ ScottyLabs organization. It records members and teams in TOML, validates those
 records, and synchronizes the resulting access model to services such as
 GitHub, Slack, Keycloak, OpenBao, Google Drive, and Google Groups.
 
-Member-facing permission details live on the
-[Goldador public guide](https://scottylabs-labrador.github.io/goldador/).
-Setup and contribution instructions live in the
-[Goldador Wiki](https://github.com/ScottyLabs-Labrador/goldador/wiki).
+Member-facing permission, setup, and contribution details live on the Goldador
+public guide: <https://scottylabs-labrador.github.io/goldador/>.
 The rest of this README is for maintainers of this repository.
 
 ## Repository Structure
