@@ -10,9 +10,9 @@ Accepted
 
 Goldador has two user-facing documentation surfaces for Labrador members: the
 public web page at `web/index.html`, published at
-https://scottylabs-labrador.github.io/goldador/, and the GitHub wiki home page
+<https://scottylabs-labrador.github.io/goldador/>, and the GitHub wiki home page
 at `wiki/Home.md`, published at
-https://github.com/scottylabs-labrador/goldador/wiki.
+<https://github.com/scottylabs-labrador/goldador/wiki>.
 
 Both pages help members understand how to get the permissions they need, but
 duplicating role permissions, setup steps, validations, and pull request process
