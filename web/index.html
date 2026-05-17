@@ -295,6 +295,23 @@
         letter-spacing: -0.05em;
       }
 
+      .section-heading h2 a.heading-anchor {
+        color: inherit;
+        text-decoration: none;
+        border-radius: 0.12em;
+      }
+
+      .section-heading h2 a.heading-anchor:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 0.06em;
+        text-underline-offset: 0.12em;
+      }
+
+      .section-heading h2 a.heading-anchor:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
       .section-heading p {
         max-width: 31rem;
         margin: 0;
@@ -373,28 +390,6 @@
         font-size: 0.95rem;
       }
 
-      .register {
-        display: grid;
-        grid-template-columns: minmax(0, 0.95fr) minmax(18rem, 1.05fr);
-        gap: 1rem;
-        align-items: center;
-        padding: 1.5rem;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        background: var(--accent-soft);
-      }
-
-      .register h2 {
-        margin: 0;
-        font-size: clamp(1.8rem, 3vw, 2.5rem);
-        letter-spacing: -0.04em;
-      }
-
-      .register p {
-        margin: 0.7rem 0 0;
-        color: var(--muted);
-      }
-
       footer {
         display: flex;
         flex-wrap: wrap;
@@ -407,9 +402,20 @@
         font-size: 0.92rem;
       }
 
+      footer a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      footer a svg {
+        width: 1.1em;
+        height: 1.1em;
+        flex-shrink: 0;
+      }
+
       @media (max-width: 900px) {
-        .hero,
-        .register {
+        .hero {
           grid-template-columns: 1fr;
           padding: 1.5rem;
         }
@@ -478,9 +484,7 @@
               learn how to register yourself as a member or add yourself to a team.
             </p>
             <div class="hero-actions">
-              <a class="button" href="#register" target="_blank" rel="noopener noreferrer">
-                Register or update access
-              </a>
+              <a class="button" href="#register">Register</a>
               <a class="button secondary" href="#permissions" target="_blank" rel="noopener noreferrer">
                 Compare roles
               </a>
@@ -575,55 +579,46 @@
 
         <section id="permissions" class="section" aria-labelledby="permissions-heading">
           <div class="section-heading">
-            <h2 id="permissions-heading">Role Permissions</h2>
+            <h2 id="permissions-heading">
+              <a href="#permissions" class="heading-anchor">Role Permissions</a>
+            </h2>
           </div>
 
           <div class="role-grid">
             <article class="role-card">
               <h3>Member</h3>
               <ul>
-                <li>
-                  GitHub organization <strong>member</strong> access.
-                </li>
-                <li>ScottyLabs Google Group <strong>member</strong> access.</li>
-                <li>
-                  ScottyLabs Google Drive <strong>contributor</strong> access.
-                </li>
+                <li><strong>Member</strong> of the GitHub organization.</li>
+                <li><strong>Contributor</strong> of the ScottyLabs Google Drive.</li>
+                <li><strong>Member</strong> of the ScottyLabs Google Group.</li>
               </ul>
             </article>
 
             <article class="role-card">
               <h3>Team Member</h3>
               <ul>
-                <li><strong>Membership</strong> in the team’s GitHub team.</li>
+                <li><strong>Member</strong> of the team’s GitHub team.</li>
                 <li><strong>Write</strong> access to the team’s GitHub repositories.</li>
-                <li><strong>Membership</strong> in the team’s Slack channel.</li>
-                <li>Keycloak project team <strong>member</strong> access.</li>
-                <li>
-                  <strong>Read/list</strong> access to local project secrets in OpenBao.
-                </li>
+                <li><strong>Member</strong> of the team’s Keycloak group.</li>
+                <li><strong>Read</strong> access to local project secrets in OpenBao.</li>
+                <li><strong>Member</strong> of the team’s Slack channel.</li>
               </ul>
             </article>
 
             <article class="role-card">
               <h3>Team Lead</h3>
               <ul>
+                <li><strong>Member</strong> of the team’s GitHub admin team.</li>
                 <li><strong>Admin</strong> access to the team’s GitHub repositories.</li>
+                <li><strong>Admin</strong> access to the team’s project secrets in OpenBao.</li>
                 <li><strong>Codeowners</strong> review ownership for the team’s Goldador team file.</li>
-                <li>Keycloak project team <strong>admin</strong> access.</li>
-                <li>
-                  <strong>Create, read, update, delete, list, and sudo</strong> access to the
-                  team’s project secrets in OpenBao.
-                </li>
               </ul>
             </article>
 
             <article class="role-card wide">
               <h3>Leadership Member</h3>
               <ul>
-                <li>
-                  Keycloak <strong>read-only</strong> access.
-                </li>
+                <li><strong>Read-only</strong> access to Keycloak.</li>
                 <li><strong>Admin</strong> access to secrets in OpenBao.</li>
               </ul>
             </article>
@@ -631,20 +626,14 @@
             <article class="role-card wide">
               <h3>Leadership Admins</h3>
               <ul>
-                <li>
-                  GitHub organization <strong>admin</strong> access.
-                </li>
-                <li>ScottyLabs Google Group <strong>manager</strong> access.</li>
-                <li>
-                  ScottyLabs Google Drive <strong>content manager</strong> access.
-                </li>
-                <li>
-                  Keycloak <strong>admin</strong> access.
-                </li>
+                <li><strong>Admin</strong> of the GitHub organization.</li>
+                <li><strong>Content manager</strong> of the ScottyLabs Google Drive.</li>
+                <li><strong>Manager</strong> of the ScottyLabs Google Group.</li>
+                <li><strong>Admin</strong> access to Keycloak.</li>
                 <li><strong>Admin</strong> access in OpenBao.</li>
                 <li>
-                  Default <strong>Codeowners</strong> review ownership for Goldador and the
-                  <code>teams/</code> directory.
+                  <strong>Codeowners</strong> for Goldador and the <code>teams/</code> directory by
+                  default.
                 </li>
               </ul>
             </article>
@@ -653,7 +642,9 @@
 
         <section id="register" class="section" aria-labelledby="register-heading">
           <div class="section-heading">
-            <h2 id="register-heading">Register or Update Access</h2>
+            <h2 id="register-heading">
+              <a href="#register" class="heading-anchor">Register</a>
+            </h2>
           </div>
 
           <div class="role-grid">
@@ -688,12 +679,15 @@
                   >
                     Fork
                   </a>
-                  the Goldador repository, then clone your fork
-                  (<a
+                  the Goldador repository and
+                  <a
                     href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository"
                     target="_blank"
                     rel="noopener noreferrer"
-                  >GitHub cloning guide</a>).
+                  >
+                    clone
+                  </a>
+                  your fork.
                 </li>
                 <li>
                   Install the recommended VS Code extensions to auto-format files
@@ -704,9 +698,9 @@
                     rel="noopener noreferrer"
                   >
                     CONTRIBUTING.md
-                  </a>).
+                  </a>
+                  for detailed instructions).
                 </li>
-                <li>Open the repo in your editor and confirm formatters apply on save.</li>
               </ul>
             </article>
 
@@ -715,25 +709,42 @@
               <h3>Add Yourself</h3>
               <ul>
                 <li>
-                  Create your member file <code>members/&lt;github-username&gt;.toml</code>
-                  (<a
+                  Create your member file in
+                  <a
+                    href="https://github.com/scottylabs-labrador/goldador/tree/main/members"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <code>members/</code>
+                  </a>
+                  (
+                  <a
                     href="https://github.com/scottylabs-labrador/goldador/blob/main/docs/schemas/member.md"
                     target="_blank"
                     rel="noopener noreferrer"
-                  >member schema</a>).
+                  >
+                    member schema
+                  </a>)
                 </li>
                 <li>
-                  Add yourself to your team in <code>teams/&lt;slug&gt;.toml</code>; team leads create
-                  or update the team file
-                  (<a
+                  Add yourself to your team in
+                  <a
+                    href="https://github.com/scottylabs-labrador/goldador/tree/main/teams"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <code>teams/</code>
+                  </a>
+                  (
+                  <a
                     href="https://github.com/scottylabs-labrador/goldador/blob/main/docs/schemas/team.md"
                     target="_blank"
                     rel="noopener noreferrer"
-                  >team schema</a>).
-                </li>
-                <li>
-                  One change per PR: add yourself as a member, or join/create one team &mdash; not
-                  both in the same PR.
+                  >
+                    team schema
+                  </a>).
+                  If you are a team lead, create or update your team&rsquo;s TOML before other
+                  members add themselves.
                 </li>
               </ul>
             </article>
@@ -742,10 +753,7 @@
               <span class="tag">Step 4</span>
               <h3>Open a PR for Review</h3>
               <ul>
-                <li>
-                  Open a PR from your fork to <code>main</code> and submit it from your own GitHub
-                  account.
-                </li>
+                <li>Open a PR from your fork to main.</li>
                 <li>
                   <a
                     href="https://github.com/scottylabs-labrador/goldador/blob/main/.github/CODEOWNERS"
@@ -754,7 +762,10 @@
                   >
                     CODEOWNERS
                   </a>
-                  auto-requests reviewers; CI must pass before merge (see
+                  will auto-request reviewers.
+                </li>
+                <li>
+                  CI must pass before merge (see
                   <a
                     href="https://github.com/scottylabs-labrador/goldador/tree/main/meta/validator"
                     target="_blank"
@@ -762,39 +773,21 @@
                   >
                     validator README
                   </a>
-                  for what&rsquo;s checked).
+                  for details).
                 </li>
                 <li>
-                  Reviewers squash-merge approved PRs (full process in
+                  Reviewers squash-merge approved PRs. See full PR review process in
                   <a
                     href="https://github.com/scottylabs-labrador/goldador/blob/main/.github/CONTRIBUTING.md#pr-review-process"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     CONTRIBUTING.md
-                  </a>).
+                  </a>.
                 </li>
               </ul>
             </article>
           </div>
-
-          <section class="section register" aria-label="Open the Goldador repository">
-            <div>
-              <h2>Ready to make a change?</h2>
-              <p>
-                Open the Goldador repository, edit the relevant TOML file, and submit a pull
-                request for review.
-              </p>
-            </div>
-            <a
-              class="button"
-              href="https://github.com/scottylabs-labrador/goldador"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open the Goldador Repository
-            </a>
-          </section>
         </section>
       </main>
 
@@ -806,6 +799,11 @@
             target="_blank"
             rel="noopener noreferrer"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
             Repository
           </a>
         </span>
