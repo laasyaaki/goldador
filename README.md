@@ -73,7 +73,7 @@ uv run --group slack-synchronizer sync-slack
 uv run --group google-synchronizer sync-google-drive
 ```
 
-`validate` uses `https://goldador.scottylabs.org` by default. Set
+`validate` uses `https://validator.goldador.scottylabs.org` by default. Set
 `VALIDATOR_SERVER_URL` to use a different validator API.
 
 ## Documentation Map
