@@ -8,6 +8,9 @@
 # Optional:
 #   VALIDATOR_VALIDATE_RATE_LIMIT (default 60/minute)
 #   VALIDATOR_RATE_LIMIT_USE_X_FORWARDED_FOR, VALIDATOR_RATE_LIMIT_DISABLED
+#
+# No BuildKit cache/bind mounts (Railway rejects many mount ids); Docker layer
+# cache still skips dependency sync when pyproject.toml / uv.lock are unchanged.
 
 FROM ghcr.io/astral-sh/uv:python3.14-bookworm-slim
 
@@ -17,20 +20,12 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     PATH="/app/.venv/bin:${PATH}"
 
-# Railway cache mounts require id=s/<service-id>-<cache-dir>
-# (see https://docs.railway.com/builds/dockerfiles#cache-mounts ). Use your
-# Railway service ID from the dashboard if you want cache scoped exactly to
-# that service; otherwise this stable slug satisfies their Dockerfile linter.
-RUN --mount=type=cache,id=s/goldador-validator-/root/.cache/uv,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev --group validator
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-install-project --no-dev --group validator
 
-COPY README.md pyproject.toml uv.lock ./
+COPY README.md ./
 COPY meta ./meta
-
-RUN --mount=type=cache,id=s/goldador-validator-/root/.cache/uv,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --group validator
+RUN uv sync --frozen --no-dev --group validator
 
 RUN useradd --create-home --shell /bin/bash --uid 1000 appuser \
     && chown -R appuser:appuser /app
