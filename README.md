@@ -26,7 +26,8 @@ The rest of this README is for maintainers of this repository.
 │   ├── linter         # Python-based linter
 │   ├── logger         # Python-based logger
 │   └── tests          # Python-based tests
-└── teams              # Team TOML files
+├── teams              # Team TOML files
+└── web                # Published member-facing documentation
 ```
 
 See the README files in nested directories for subsystem-specific details.
@@ -59,7 +60,7 @@ uv run lint
 # Run the Python test suite.
 uv run --group test --group validator test
 
-# Validate governance TOML through the hosted validator API.
+# Validate Goldador TOML through the hosted validator API.
 uv run validate REF
 
 # Run the validator API locally on port 8000.
@@ -77,6 +78,8 @@ uv run --group google-synchronizer sync-google-drive
 
 ## Documentation Map
 
+- [`web/index.html`](web/index.html) backs the published member-facing guide at
+  <https://scottylabs-labrador.github.io/goldador/>.
 - [`docs/adrs/`](docs/adrs/) records architectural decisions.
 - [`docs/schemas/`](docs/schemas/) explains how to author member and team TOML.
 - [`meta/schemas/README.md`](meta/schemas/README.md) explains the JSON Schemas
