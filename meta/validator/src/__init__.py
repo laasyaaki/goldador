@@ -8,9 +8,9 @@ from meta.loaders.members import load_members
 from meta.loaders.teams import load_teams
 from meta.logger import print_section
 
-from .members import MemberValidator
 from .reporter import Reporter, bind_reporter
-from .teams import TeamValidator
+from .rules.members import MemberValidator
+from .rules.teams import TeamValidator
 
 
 def main() -> None:
