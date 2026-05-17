@@ -17,7 +17,11 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     PATH="/app/.venv/bin:${PATH}"
 
-RUN --mount=type=cache,id=uv,target=/root/.cache/uv \
+# Railway cache mounts require id=s/<service-id>-<cache-dir>
+# (see https://docs.railway.com/builds/dockerfiles#cache-mounts ). Use your
+# Railway service ID from the dashboard if you want cache scoped exactly to
+# that service; otherwise this stable slug satisfies their Dockerfile linter.
+RUN --mount=type=cache,id=s/goldador-validator-/root/.cache/uv,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-install-project --no-dev --group validator
@@ -25,7 +29,7 @@ RUN --mount=type=cache,id=uv,target=/root/.cache/uv \
 COPY README.md pyproject.toml uv.lock ./
 COPY meta ./meta
 
-RUN --mount=type=cache,id=uv,target=/root/.cache/uv \
+RUN --mount=type=cache,id=s/goldador-validator-/root/.cache/uv,target=/root/.cache/uv \
     uv sync --frozen --no-dev --group validator
 
 RUN useradd --create-home --shell /bin/bash --uid 1000 appuser \
