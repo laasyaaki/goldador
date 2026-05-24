@@ -19,14 +19,17 @@ from starlette.requests import Request  # noqa: TC002
 from starlette.responses import JSONResponse, Response
 
 from meta.loaders.errors import GovernanceLoadError
+from meta.loaders.members import load_members
+from meta.loaders.teams import load_teams
 from meta.logger import get_app_logger
 from meta.validator.src.github_utils import (
     GOLDADOR_REPO_FULL_NAME,
     GoldadorGitHubError,
+    fetch_goldador_toml_at_ref,
 )
-from meta.validator.src.remote_validation import run_remote_validation
-from meta.validator.src.rules.members import MemberValidationError
-from meta.validator.src.rules.teams import TeamValidationError
+from meta.validator.src.reporter import Reporter, bind_reporter
+from meta.validator.src.rules.members import MemberValidationError, MemberValidator
+from meta.validator.src.rules.teams import TeamValidationError, TeamValidator
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator, Mapping
@@ -116,8 +119,24 @@ class ValidateRequest(BaseModel):
 
 def run_validation_for_ref(ref: str) -> dict[str, Any]:
     """Fetch TOML from GitHub at ``ref`` and return structured validation results."""
-    reporter, extras = run_remote_validation(ref)
-    return {**extras, "validation": reporter.as_result()}
+    reporter = Reporter()
+    record = bind_reporter(reporter)
+    member_tomls, team_tomls = fetch_goldador_toml_at_ref(ref)
+    members = load_members(record, file_contents=member_tomls)
+    MemberValidator(members, reporter).validate()
+
+    teams = load_teams(record, file_contents=team_tomls)
+    TeamValidator(teams, members, reporter).validate()
+
+    return {
+        "repository": GOLDADOR_REPO_FULL_NAME,
+        "ref": ref,
+        "loaded": {
+            "member_files": len(member_tomls),
+            "team_files": len(team_tomls),
+        },
+        "validation": reporter.as_result(),
+    }
 
 
 def _status_for(exc: Exception) -> int:
