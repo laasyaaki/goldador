@@ -57,7 +57,7 @@ def verify_ref(repo: Repository, ref: str) -> None:
     except GithubException as e:
         if e.status == HTTPStatus.NOT_FOUND:
             msg = f"Ref {ref!r} not found in {GOLDADOR_REPO_FULL_NAME}"
-            raise GoldadorGitHubError(msg, status_code=400) from e
+            raise GoldadorGitHubError(msg, status_code=404) from e
         _raise_github_api_error(e)
 
 

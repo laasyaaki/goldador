@@ -30,6 +30,7 @@ class ErrorCode(Enum):
     MISMATCHED_KEYCLOAK_GITHUB = "Mismatched GitHub username in Keycloak"
     MISSING_KEYCLOAK_SLACK = "Missing Slack ID in Keycloak"
     GITHUB_REPO_NOT_FOUND = "GitHub repository not found"
+    GOVERNANCE_LOAD_ERROR = "Governance file failed to load"
 
 
 class ValidationErrorEntry(TypedDict):
